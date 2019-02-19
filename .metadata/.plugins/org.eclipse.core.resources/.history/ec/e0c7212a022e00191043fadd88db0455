@@ -1,0 +1,9 @@
+package classifier;
+
+import org.nd4j.api.loader.Loader;
+public class NeuralNet {
+	public static void main(String[] args) {
+       
+    }
+
+}

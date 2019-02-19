@@ -1,0 +1,17 @@
+package com.brume.classifier;
+
+import java.io.File;
+
+public class Neural {
+	 File testData = new File("./data/test.csv");
+	
+	
+
+	 public static void main(String[] args) throws Exception {
+		 File testData = new File("./data/test.csv");
+		 reader = csv.reader(testdata);
+			int arrX[] = new int[0];
+			int arrY[] = new int[0];
+		 System.out.println("Done with loading the training data.");
+	 }
+}

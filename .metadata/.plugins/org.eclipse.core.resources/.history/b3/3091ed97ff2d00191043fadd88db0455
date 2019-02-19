@@ -1,0 +1,10 @@
+package classifier;
+import org.deeplearning4j.api.loader;
+
+
+public class NeuralNet {
+	public static void main(String[] args) {
+       
+    }
+
+}

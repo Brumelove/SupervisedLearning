@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Move element &apos;NeuralNet.java&apos; to &apos;NeuralNet.package-info.java&apos;&#x0A;- Original project: &apos;Brume ML&apos;&#x0A;- Destination element: &apos;NeuralNet.package-info.java&apos;&#x0A;- Original element: &apos;NeuralNet.java&apos;&#x0A;- Update references to refactored element" description="Move compilation unit" destination="/src&lt;NeuralNet{package-info.java" element1="/src&lt;{NeuralNet.java" files="0" flags="589830" folders="0" id="org.eclipse.jdt.ui.move" policy="org.eclipse.jdt.ui.moveResources" qualified="false" references="true" stamp="1549716522216" units="1" version="1.0"/>
+</session>

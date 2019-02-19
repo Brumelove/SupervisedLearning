@@ -1,0 +1,18 @@
+package com.brume.classifier;
+import java.io.File;
+
+import org.datavec.*;
+import org.deeplearning4j.*;
+
+/**
+ * Hello world!
+ *
+ */
+public class App 
+{
+	File trainData = new File("./data/train.csv");
+    public static void main( String[] args )
+    {
+        System.out.println( "Hello World!" );
+    }
+}

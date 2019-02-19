@@ -1,0 +1,16 @@
+package com.brume.classifier;
+import org.opencv.*;
+import org.datavec.api.records.reader.impl.csv.*;
+
+import java.io.File;
+
+public class Neural {
+	File testData = new File("./data/test.csv");
+	int arrX[] = new int[0];
+	int arrY[] = new int[0];
+	
+
+	 public static void main(String[] args) throws Exception {
+		 System.out.println("Done with loading the training data.");
+	 }
+}

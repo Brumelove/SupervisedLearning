@@ -1,0 +1,14 @@
+package com.brume.classifier;
+import org.datavec.*;
+
+/**
+ * Hello world!
+ *
+ */
+public class App 
+{
+    public static void main( String[] args )
+    {
+        System.out.println( "Hello World!" );
+    }
+}

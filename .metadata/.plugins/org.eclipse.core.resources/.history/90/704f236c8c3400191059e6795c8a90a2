@@ -1,0 +1,65 @@
+package com.brume.classifier;
+
+/**
+ * Hello world!
+ *
+ */
+	
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+public class App{
+private MLPClassifer nn;
+    private static final String COMMA_DELIMITER = "," ;
+    public static void main(String[] args) throws IOException {
+   
+
+        List<List<String>> x = new ArrayList<>();
+        List<String> y = new ArrayList<>();
+        try (BufferedReader br = new BufferedReader(new FileReader("./data/train.csv"))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] values = line.split(COMMA_DELIMITER);
+                //records.add(Arrays.asList(values));
+                List<String> xes = new ArrayList<>();
+                for(int i = 0; i < 64; i++
+                ) {
+                    xes.add(values[i]);
+                }
+
+                x.add(xes);
+                y.add(values[64]);
+            }
+        }
+
+        System.out.println("Done with loading the training data.");
+
+        
+        List<List<String>> X_test = new ArrayList<>();
+        List<String> Y_test = new ArrayList<>();
+        try (BufferedReader br = new BufferedReader(new FileReader("./data/test.csv"))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] values = line.split(COMMA_DELIMITER);
+                //records.add(Arrays.asList(values));
+                List<String> xes = new ArrayList<>();
+                for(int i = 0; i < 64; i++
+                ) {
+                    xes.add(values[i]);
+                }
+
+                X_test.add(xes);
+                Y_test.add(values[64]);
+            }
+        }
+
+        System.out.println("Done with loading the testing data.");
+
+       
+
+    }}
+
+

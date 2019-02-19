@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+    <fullyQualifiedTypeName name="java.util.List"/>
+    <fullyQualifiedTypeName name="java.awt.List"/>
+    <fullyQualifiedTypeName name="org.deeplearning4j.nn.conf.ComputationGraphConfiguration.GraphBuilder"/>
+    <fullyQualifiedTypeName name="org.deeplearning4j.nn.conf.layers.ActivationLayer"/>
+    <fullyQualifiedTypeName name="org.deeplearning4j.nn.layers.ActivationLayer"/>
+    <fullyQualifiedTypeName name="org.deeplearning4j.nn.conf.NeuralNetConfiguration"/>
+    <fullyQualifiedTypeName name="org.nd4j.linalg.activations.Activation"/>
+</qualifiedTypeNameHistroy>

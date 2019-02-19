@@ -1,0 +1,22 @@
+Java implementation of classification using ID3 algorithm on decision trees : 
+
+Assumptions
+•	There will be no missing data or attributes.
+•	The data used to test the implementation contains only Boolean attributes or Boolean classes.
+•	The first row of the data set contains column names and each non-blank contains a new data instance.
+•	The last column contains the Class Labels.
+•	Model is build using training dataset, validated on validation dataset, tested on test dataset.
+•	If there is a blank line, the program will skip it.
+•	Entropy uses logarithm of base2.
+•	The pruning factor is multiplied by total number of nodes to give the result of the number of nodes to be pruned. (as given in the assignment description)
+•	The pruning factor is taken dynamically from the command line and should be between 0 and 1 (exclusive) because if it is zero, no nodes are pruned and if 1 all nodes are pruned. 
+•	If a leaf node is reached that contains no pure data, we are free to label it.
+
+Program Description 
+The tree classifier is based on ID3 algorithm.
+The program reads four command line arguments 
+•	Training dataset
+•	Validation dataset
+•	Test dataset
+•	Pruning Factor 
+The program outputs the tree and a report on the accuracy before and after pruning data.
