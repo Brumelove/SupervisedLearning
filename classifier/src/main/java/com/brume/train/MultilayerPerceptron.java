@@ -15,30 +15,28 @@ public class MultilayerPerceptron {
 
 	/*
 	+-----------+
-	| constants |
+	| variables |
 	+-----------+
 	*/
 
-	private int inputPerceptron = 64;
-	private int hiddenLayer = 600; /* Hidden layer */
-	private static int outputLayer = 65; // Outputlayer of the perceptron because the dataset have 16 integers
-	private int inputLayer = 1024; //Input layer of the perceptron
-	/*  -------------------------------------------------------------------------------------------------- */
-
+	private int inputAttributes; // UCI input Attributes
+	private int hiddenLayer;/* Hidden layer */
+	private  int outputLayer ; // Outputlayer of the perceptron
+	private int inputLayer;  //Input layer of the perceptron(32x32 bitmaps R)
 	private double LEARNING_RATE; // The Learning rate of the perceptron
-	private double[][][] weight = new double[hiddenLayer][outputLayer][inputLayer];
-
-	/*
-	the weight matrix for the perceptrons, weight[i][j] is the
-	weights for the perceptron "i" vs "j"
-	this matrix is a strictly upper triangular matrix
-	the perceptron[i][j] output 1 if the input is i, output -1
-	if the input is j
-	*/
+	private double[][][] weight; // upper triangular weight matrix
 
 
-	public MultilayerPerceptron(double LEARNING_RATE) {
+
+
+	public MultilayerPerceptron(double LEARNING_RATE, int inputAttributes, int hiddenLayer, int outputLayer, int inputLayer,double[][][] weight) {
 		this.LEARNING_RATE = LEARNING_RATE;
+		this.inputAttributes = inputAttributes;
+		this.hiddenLayer = hiddenLayer;
+		this.outputLayer = outputLayer;
+		this.inputLayer = inputLayer;
+		this.weight = weight;
+
 
 	}
 
@@ -46,7 +44,8 @@ public class MultilayerPerceptron {
 	 * Calculating the initial weight
 	 */
 
-	public void initializationOfWeight() {
+	/*public void initializationOfWeight() {
+		// Initialise weight matrices (accounting for bias unit)
 		System.out.println("Weights:");
 		for (int i = 0; i < outputLayer; i++) {
 			for (int j = i + 1; j < hiddenLayer; j++) {
@@ -58,20 +57,20 @@ public class MultilayerPerceptron {
 				System.out.println();
 			}
 		}
-	}
+	}*/
 
 	/**
 	 * calculate the output of the perceptron before the activation function
 	 */
 	private double calcOutput(double[] w, int[] x) {
 		double result = w[0];
-		for (int i = 0; i < inputPerceptron; i++) {
+		for (int i = 0; i < inputAttributes; i++) {
 			result += w[i + 1] * x[i];
 		}
 		return result;
 	}
 
-	/* return values between -1 and 1 */
+	/* Activation function -- return values between -1 and 1 */
 	private double Tanh(double x) {
 		return Math.tanh(x);
 
@@ -83,23 +82,23 @@ public class MultilayerPerceptron {
 	 * Update weights using backpropagation
 	 * @param x [0..63]
 	 */
-	private boolean backPropagation(int d1, int d2, int[] x) {
+	private boolean backPropagation(int delta1, int delta2, int[] x) {
 		//initializationOfWeight();
 		boolean result = false; // default to weight not changed
 
-		int target = x[inputPerceptron] == d1 ? 1 : (x[inputPerceptron] == d2 ? -1 : 0);
-		if (target == 0) {
+		int receptors = x[inputAttributes] == delta1 ? 1 : (x[inputAttributes] == delta2 ? -1 : 0);
+		if (receptors == 0) {
 			throw new RuntimeException("Invalid input!");
 		}
 
-		double[] w = weight[d1][d2];
-		double output = Tanh(calcOutput(w, x));
-		double coefficient = LEARNING_RATE * (target - output);
+		double[] w = weight[delta1][delta2];
+		double variance = Tanh(calcOutput(w, x));
+		double coefficient = LEARNING_RATE * (receptors - variance);
 
 		// updating the weight
 		w[0] += coefficient;
-		for (int i = 0; i < inputPerceptron; i++) {
-			if ((target - output) * x[i] > 0) {
+		for (int i = 0; i < inputAttributes; i++) {
+			if ((receptors - variance) * x[i] > 0) {
 				result = true;
 			}
 			w[i + 1] += coefficient * x[i];
@@ -109,32 +108,32 @@ public class MultilayerPerceptron {
 	}
 
 	/*
-	 * train a single perceptron d1 vs d2, where output 1 mean d1, -1 mean d2
+	 * train a single perceptron delta1 vs delta2, where output 1 mean delta1, -1 mean delta2
 	 * return the epoch used
 	 */
-	private int trainbi(int d1, int d2, int[][] traindata) {
-		if (d1 >= d2) {
+	private int trainbi(int delta1, int delta2, int[][] traindata) {
+		if (delta1 >= delta2) {
 			throw new RuntimeException("invalid input!");
 		}
 
 		// randomly set the weight between -1 and 1
 		for (int i = 0; i < outputLayer; i++) {
-			weight[d1][d2][i] = Math.random() * 2 - 1;
-			//weight[d1][d2][i] = 0;
+			weight[delta1][delta2][i] = Math.random() * 2 - 1;
+			//weight[delta1][delta2][i] = 0;
 		}
 
 		int epoch = 0;
 		while (true) {
-			int[][] con = testbi(d1, d2, traindata);
+			int[][] con = testbi(delta1, delta2, traindata);
 			double oldacc = getCon(con);
 			for (int i = 0; i < traindata.length; i++) {
-				if (traindata[i][inputPerceptron] == d1 || traindata[i][inputPerceptron] == d2) {
-					backPropagation(d1, d2, traindata[i]);
+				if (traindata[i][inputAttributes] == delta1 || traindata[i][inputAttributes] == delta2) {
+					backPropagation(delta1, delta2, traindata[i]);
 				}
 			}
-			con = testbi(d1, d2, traindata);
+			con = testbi(delta1, delta2, traindata);
 			double newacc = getCon(con);
-			//System.out.println(d1+","+d2+","+oldacc+","+newacc);
+			//System.out.println(delta1+","+delta2+","+oldacc+","+newacc);
 			if (newacc <= oldacc) {
 				break;
 			}
@@ -166,29 +165,29 @@ public class MultilayerPerceptron {
 
 
 	/*
-	 * test one perceptron(d1,d2) on the test data set, and return the confusion matrix.
+	 * test one perceptron(delta1,delta2) on the test data set, and return the confusion matrix.
 	 */
-	protected int[][] testbi(int d1, int d2, int[][] testdata) {
-		int tp = 0, fp = 0, tn = 0, fn = 0;
+	protected int[][] testbi(int delta1, int delta2, int[][] testdata) {
+		int truePositive = 0, falsePositive = 0, trueNegative = 0, falseNegative = 0;
 		for (int i = 0; i < testdata.length; i++) {
-			if (testdata[i][inputPerceptron] == d1) {
-				double o = calcOutput(weight[d1][d2], testdata[i]);
+			if (testdata[i][inputAttributes] == delta1) {
+				double o = calcOutput(weight[delta1][delta2], testdata[i]);
 				if (Tanh(o) == 1) {
-					tp++;
+					truePositive++;
 				} else {
-					fn++;
+					falseNegative++;
 				}
-			} else if (testdata[i][inputPerceptron] == d2) {
-				double o = calcOutput(weight[d1][d2], testdata[i]);
+			} else if (testdata[i][inputAttributes] == delta2) {
+				double o = calcOutput(weight[delta1][delta2], testdata[i]);
 				if (Tanh(o) == 1) {
-					fp++;
+					falsePositive++;
 				} else {
-					tn++;
+					trueNegative++;
 				}
 			}
 		}
 
-		return new int[][]{{tp, fn}, {fp, tn}};
+		return new int[][]{{truePositive, falseNegative}, {falsePositive, trueNegative}};
 	}
 
 	/*
@@ -232,7 +231,7 @@ public class MultilayerPerceptron {
 		}
 		//System.out.println(strs);
 
-		int[][] data = new int[strs.size()][outputLayer];
+		int[][] data = new int[strs.size()][65];
 		for (int i = 0; i < strs.size(); i++) {
 			String str = strs.get(i);
 			// System.out.println(str);
