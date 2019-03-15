@@ -4,6 +4,12 @@ public class Main {
 
 
     public static void main(String[] args) {
+        Main main = new Main();
+        main.twoFoldMLPTest();
+
+    }
+
+    public void twoFoldMLPTest() {
         double LEARNING_RATE = Double.valueOf(0.3);
         int inputAttributes = Integer.valueOf(64);
         int hiddenLayer = Integer.valueOf(600);
@@ -43,7 +49,7 @@ public class Main {
         int k = 0;
         for (
                 int i = 0;
-                i < 10; i++) {
+                i < 9; i++) {
             for (int j = i + 1; j < 10; j++) {
                 epoch[k++] = ep[i][j];
             }
@@ -80,10 +86,12 @@ public class Main {
         }
 
 
-        // geneLEARNING_RATE report
+        // Prediction result
+        for(int i=0; i<confusion.length ; i++) {
 
 
-            System.out.println("Train accuracy: " + trainacc[1] + " , " + "Test accuracy: " + testacc[1]);
+            System.out.println("Train accuracy: " + trainacc[i] + " , " + "Test accuracy: " + testacc[i]);
+        }
 
     }
 

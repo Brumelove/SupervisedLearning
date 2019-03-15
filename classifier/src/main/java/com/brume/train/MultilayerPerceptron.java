@@ -20,8 +20,8 @@ public class MultilayerPerceptron {
 	*/
 
 	private int inputAttributes; // UCI input Attributes
-	private int hiddenLayer;/* Hidden layer */
-	private  int outputLayer ; // Outputlayer of the perceptron
+	private int hiddenLayer; /* Hidden layer */
+	private int outputLayer; // Outputlayer of the perceptron
 	private int inputLayer;  //Input layer of the perceptron(32x32 bitmaps R)
 	private double LEARNING_RATE; // The Learning rate of the perceptron
 	private double[][][] weight; // upper triangular weight matrix
@@ -119,22 +119,20 @@ public class MultilayerPerceptron {
 		// randomly set the weight between -1 and 1
 		for (int i = 0; i < outputLayer; i++) {
 			weight[delta1][delta2][i] = Math.random() * 2 - 1;
-			//weight[delta1][delta2][i] = 0;
 		}
 
 		int epoch = 0;
 		while (true) {
 			int[][] con = testbi(delta1, delta2, traindata);
-			double oldacc = getCon(con);
+			double misclassificationRate = getCon(con);
 			for (int i = 0; i < traindata.length; i++) {
 				if (traindata[i][inputAttributes] == delta1 || traindata[i][inputAttributes] == delta2) {
 					backPropagation(delta1, delta2, traindata[i]);
 				}
 			}
 			con = testbi(delta1, delta2, traindata);
-			double newacc = getCon(con);
-			//System.out.println(delta1+","+delta2+","+oldacc+","+newacc);
-			if (newacc <= oldacc) {
+			double predictionAccuracy = getCon(con);
+			if (predictionAccuracy <= misclassificationRate) {
 				break;
 			}
 			epoch++;
@@ -152,8 +150,8 @@ public class MultilayerPerceptron {
 	 * @return the epochs used
 	 */
 	protected int[][] train(int[][] traindata) {
-		int[][] epoch = new int[10][10];
-		for (int i = 0; i < 10; i++) {
+		int[][] epoch = new int[9][10];
+		for (int i = 0; i < 9; i++) {
 			for (int j = i + 1; j < 10; j++) {
 				epoch[i][j] = trainbi(i, j, traindata);
 			}
@@ -161,11 +159,10 @@ public class MultilayerPerceptron {
 
 		return epoch;
 	}
-	// splitted MultilayerPerceptron data
 
 
 	/*
-	 * test one perceptron(delta1,delta2) on the test data set, and return the confusion matrix.
+	 * test one perceptron(delta1,delta2) on the test data set, and return the confusion matrix for the binary classifier
 	 */
 	protected int[][] testbi(int delta1, int delta2, int[][] testdata) {
 		int truePositive = 0, falsePositive = 0, trueNegative = 0, falseNegative = 0;
@@ -198,7 +195,7 @@ public class MultilayerPerceptron {
 		int batchsize = 4;
 		int[][] confusion = new int[45][batchsize];
 		int k = 0;
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < 9; i++) {
 			for (int j = i + 1; j < 10; j++) {
 				int[][] con = testbi(i, j, testdata);
 				// System.out.println(i+","+j+","+acc);
